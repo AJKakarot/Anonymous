@@ -1,21 +1,26 @@
-import mongoose from 'mongoose';
+import mongoose,{ ConnectOptions }  from 'mongoose';
+import { boolean } from 'zod';
 
 type ConnectionObject = {
   isConnected?: number;
 };
+
+
 
 const connection: ConnectionObject = {};
 
 async function dbConnect(): Promise<void> {
   // Check if we have a connection to the database or if it's currently connecting
   if (connection.isConnected) {
-    console.log('Already connected to the database');
+    console.log('Database is already connected');
     return;
   }
 
   try {
+    
     // Attempt to connect to the database
-    const db = await mongoose.connect(process.env.MONGODB_URI || '', {});
+    const db = await mongoose.connect(process.env.MONGODB_URI || '', {
+    });
 
     connection.isConnected = db.connections[0].readyState;
 
